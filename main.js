@@ -13,19 +13,22 @@ let random_num = 0
 
 let PlayButton = document.getElementById("play_button")
 let resetButton = document.getElementById('Reset_button')
+let showAnswer = document.getElementById("answer_button")
 
 
 let UserId = document.getElementById("user_id")
 let result = document.getElementById("result_area")
 let chanceNum = document.getElementById("chance_area")
+let historyNum = document.getElementById("history_area")
 
-let chances = 5
+let chances = 3
 let gameover = false
 
 let history = []
 
 PlayButton.addEventListener("click", play)
 resetButton.addEventListener("click", reset)
+showAnswer.addEventListener("click", show_answer)
 UserId.addEventListener("focus", function(){UserId.value=""})
 
 
@@ -51,24 +54,44 @@ function play(){
 
   if(userValue < random_num){
     result.textContent = "UP!!!!!"
+    result.style.color = "red";
+
   }else if(userValue > random_num){
     result.textContent = "Down!!!!!"
-  }else{
+    result.style.color = "grey";
+
+  }else if(userValue == random_num){
     result.textContent = "굿굿 정답입니다"
     gameover = true
   }
 
   history.push(userValue)
 
-  if(chances == 0){
+  if(userValue != random_num && chances == 0){
     gameover = true
   }
 
-  if(gameover== true){
-    PlayButton.disabled = true
+  if(gameover == true){
+    if(userValue == random_num){
+      PlayButton.disabled = true
+      result.textContent = "정답입니다!!!!"
+      result.style.color = "pink";
+    }else{
+      PlayButton.disabled = true
+      result.textContent = "게임오버!!!!"
+      result.style.color = "black";
+  
+    }
+
+
   }
+  historyNum.textContent = `지금까지 입력한 숫자입니다 : ${history} `
 }
 
+
+function show_answer(){
+  showAnswer.textContent = `정답 : ${random_num}`
+}
 
 function reset(){
   //user input 창이 깨끗하게 정리되고
@@ -76,11 +99,12 @@ function reset(){
   UserId.value = ""
   pickRandomNumber()
   PlayButton.disabled = false
-  chances = 5
+  chances = 3
   chanceNum.textContent = `남은 기회 : ${chances} 번`
   result.textContent = "처음부터 다시 시작합니다"
-
-
+  showAnswer.textContent = `정답을 확인하려면 눌러주세요`
+  history = []
+  historyNum.textContent = `지금까지 입력한 숫자입니다 `
 }
 
 pickRandomNumber()
