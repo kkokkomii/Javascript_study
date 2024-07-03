@@ -76,7 +76,7 @@ function play(){
       PlayButton.disabled = true
       result.textContent = "정답입니다!!!!"
       result.style.color = "pink";
-    }else{
+    }else if(chances == 0){
       PlayButton.disabled = true
       result.textContent = "게임오버!!!!"
       result.style.color = "black";
@@ -87,7 +87,7 @@ function play(){
   }
   historyNum.textContent = `지금까지 입력한 숫자입니다 : ${history} `
 }
-
+  
 
 function show_answer(){
   showAnswer.textContent = `정답 : ${random_num}`
